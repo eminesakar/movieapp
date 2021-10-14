@@ -1,5 +1,5 @@
 from datetime import date
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from movies.models import Movie
 
@@ -37,14 +37,9 @@ def movies(request):
     })
 
 def movie_details(request, slug):
-    movies = data["movies"]
-    # selectedMovie = None
-    # for movie in movies:
-    #     if movie["slug"] == slug:
-    #         selectedMovie = movie
-
-    selectedMovie = next(movie for movie in movies if movie["slug"] == slug)
+    movie = get_object_or_404(Movie, slug=slug)
 
     return render(request, 'movie-details.html', {
-        "movie": selectedMovie
+        "movie": movie,
+        "genres": movie.genres.all()
 })
