@@ -41,5 +41,7 @@ def movie_details(request, slug):
 
     return render(request, 'movie-details.html', {
         "movie": movie,
-        "genres": movie.genres.all()
+        "genres": movie.genres.all(),
+        "people": movie.people.all(),
+        "videos": movie.video_set.all()
 })
