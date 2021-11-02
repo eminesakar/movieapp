@@ -56,8 +56,8 @@ class Person(models.Model):
 class Movie(models.Model):
     title = models.CharField("Başlık",max_length=100)
     description = models.TextField("Özet",validators = [MinLengthValidator(20)])
-    image_name = models.CharField("Resim",max_length=50)
-    image_cover = models.CharField(max_length=50)
+    image_name = models.ImageField(upload_to="movies")
+    image_cover = models.ImageField(upload_to="movies")
     date = models.DateField()
     slug = models.SlugField(unique=True,db_index=True)
     budget = models.DecimalField(max_digits=19,decimal_places=2)
