@@ -72,6 +72,7 @@
                   ></a>
                 </div>
               </div>
+
               <div
                 class="row d-flex align-items-center justify-content-between py-3 px-4">
                 <div class="col-lg-6 m-b-4">
@@ -153,7 +154,7 @@
                   id="home"
                   role="tabpanel"
                   aria-labelledby="home-tab">
-                  {{ movie.description }}
+                  {{ movie.description|safe }}
                 </div>
                 <div
                   class="tab-pane fade"
