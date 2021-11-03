@@ -1,5 +1,6 @@
 from datetime import date
 from django.shortcuts import get_object_or_404, render
+from movies.forms import CommentForm
 
 from movies.models import Movie
 
@@ -38,10 +39,12 @@ def movies(request):
 
 def movie_details(request, slug):
     movie = get_object_or_404(Movie, slug=slug)
+    comment_form = CommentForm()
 
     return render(request, 'movie-details.html', {
         "movie": movie,
         "genres": movie.genres.all(),
         "people": movie.people.all(),
-        "videos": movie.video_set.all()
+        "videos": movie.video_set.all(),
+        "comment_form": comment_form
 })
