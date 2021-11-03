@@ -1,9 +1,6 @@
-from django.core import validators
 from django.db import models
-from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.db.models.fields import CharField
 from ckeditor.fields import RichTextField
-from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 class Genre(models.Model):
     name = models.CharField(max_length=100)
@@ -78,9 +75,9 @@ class Movie(models.Model):
 
 class Comment(models.Model):
     full_name = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(default="")
     text = models.TextField(max_length=500)
-    rating = models.IntegerField(validators=[MinLengthValidator(1), MaxLengthValidator(5)])
+    rating = models.IntegerField(null=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="comments")
 
 
