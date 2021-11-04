@@ -12,6 +12,7 @@ def login_request(request):
         if form.is_valid():
             email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password")
+           
             username = User.objects.get(email=email).username
             user = authenticate(username=username, password=password)
 
@@ -19,7 +20,9 @@ def login_request(request):
                 login(request, user)
                 return redirect("home_page")
             else:
+                form.add_error(None, "email ya da parola yanlış.")
                 return render(request, 'account/login.html',{'form':form})
+            
         else:
             return render(request, 'account/login.html',{'form':form})
 
