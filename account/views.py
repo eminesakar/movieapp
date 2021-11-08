@@ -58,6 +58,12 @@ def register_request(request):
 def change_password(request):
     return render(request, 'account/change_password.html')
 
+def watch_list(request):
+    return render(request, 'account/watch-list.html')
+
+def profile(request):
+    return render(request, 'account/profile.html')
+
 def logout_request(request):
     logout(request)
     return redirect("home_page")
