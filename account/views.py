@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login, logout
-from account.forms import CreateUserForm, LoginForm
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from account.forms import CreateUserForm, LoginForm, UserPasswordChangeForm
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 def login_request(request):
     if request.user.is_authenticated:
@@ -56,7 +57,17 @@ def register_request(request):
     return render(request, 'account/register.html', {"form":form})
 
 def change_password(request):
-    return render(request, 'account/change_password.html')
+    if request.method == "POST":
+        form = UserPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request,"parola değiştirildi.")
+            return redirect("change_password")
+        else:
+            return render(request, "account/change_password.html", {"form":form})
+    form = UserPasswordChangeForm(request.user)
+    return render(request, "account/change_password.html", {"form":form})
 
 def watch_list(request):
     return render(request, 'account/watch-list.html')
