@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from account.forms import CreateUserForm, LoginForm, ProfileForm, UserForm, UserPasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 def login_request(request):
     if request.user.is_authenticated:
@@ -72,9 +73,22 @@ def change_password(request):
 def watch_list(request):
     return render(request, 'account/watch-list.html')
 
+@login_required(login_url='/account/login')
 def profile(request):
-    user_form = UserForm()
-    profile_form = ProfileForm()
+    if request.method == "POST":
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile, files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "profil bilgileriniz güncellendi.")
+            return redirect("profile")
+        else:
+            messages.error(request, "lütfen bilgilerinizi kontrol ediniz")
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+
     return render(request, 'account/profile.html', {
         'user_form': user_form,
         'profile_form': profile_form
