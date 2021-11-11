@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from movies.models import Comment, Contact, Genre, Movie, Person, Video
+from movies.models import Comment, Contact, Genre, Movie, Person, Slider, Video
 
 class MovieAdmin(admin.ModelAdmin):
     list_display = ('title','is_active','is_home',)
@@ -23,4 +23,5 @@ admin.site.register(Person, PersonAdmin)
 admin.site.register(Contact)
 admin.site.register(Genre)
 admin.site.register(Video)
+admin.site.register(Slider)
 admin.site.register(Comment, CommentAdmin)
